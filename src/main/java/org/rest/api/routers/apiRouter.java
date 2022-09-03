@@ -18,8 +18,8 @@ public class apiRouter {
         restAPI.route().handler(BodyHandler.create());
         restAPI.get("/").handler(apiHandler::getAPIs);
         restAPI.post("/").consumes("application/json").handler(apiHandler::postAPI);
-        restAPI.delete("/:id").handler(apiHandler::deleteAPI);
-        restAPI.get("/:id").handler(apiHandler::getAPI);
+        restAPI.delete("/:apiName").handler(apiHandler::deleteAPI);
+        restAPI.get("/:apiName").handler(apiHandler::getAPI);
         return restAPI;
     }
 

@@ -2,7 +2,10 @@ package org.rest.api.handlers;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
+import org.rest.api.dao.apiDao;
 import org.rest.api.utils.apiDBUtils;
+
+import java.util.ArrayList;
 
 public class apiHandler {
 
@@ -18,11 +21,14 @@ public class apiHandler {
     }
 
     public static void deleteAPI(RoutingContext ctx) {
-        ctx.end("Delete request has been called on "+ctx.pathParam("id"));
+        apiDBUtils.deleteAPIData(ctx.pathParam("apiName"));
+        ctx.response().putHeader("content-type","application/json").end("Delete request has been called on "+ctx.pathParam("apiName"));
     }
 
     public static void getAPI(RoutingContext ctx) {
-        ctx.end("Get request has been called on "+ctx.pathParam("id"));
+        String apiName = ctx.pathParam("apiName");
+        JsonObject response = apiDBUtils.getAPISet(apiName);
+        ctx.response().putHeader("content-type","application/json").end(response.toString());
     }
 
 }

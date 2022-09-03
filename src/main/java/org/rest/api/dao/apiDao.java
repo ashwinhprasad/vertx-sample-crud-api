@@ -11,11 +11,14 @@ public class apiDao {
 
     static Connection con = masterDao.getConnection();
 
-    public static ResultSet retrieveQuery(String query) throws SQLException {
-        JsonObject response = new JsonObject();
+    public static ResultSet retrieveQuery(String query, ArrayList<String> params) throws SQLException {
         ResultSet rs = null;
-        Statement stmt = con.createStatement();
-        rs = stmt.executeQuery(query);
+        PreparedStatement ptsmt = con.prepareStatement(query);
+        int paramIdx=0;
+        for(String param: params) {
+            ptsmt.setString(++paramIdx, param);
+        }
+        rs = ptsmt.executeQuery();
         return rs;
     }
 
@@ -27,6 +30,5 @@ public class apiDao {
         }
         ptsmt.executeUpdate();
     }
-
 
 }
