@@ -8,11 +8,13 @@ public class apiHandler {
 
     public static void getAPIs(RoutingContext ctx) {
         JsonObject response = apiDBUtils.getAPIData();
-        ctx.end(response.toString());
+        ctx.response().putHeader("Content-Type","application/json").end(response.toString());
     }
 
     public static void postAPI(RoutingContext ctx) {
-        ctx.end("Post request has been called");
+        JsonObject request = ctx.body().asJsonObject();
+        apiDBUtils.addAPIData(request);
+        ctx.response().putHeader("content-type","application/json").end(request.toString());
     }
 
     public static void deleteAPI(RoutingContext ctx) {
